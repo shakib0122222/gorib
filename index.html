@@ -20,6 +20,13 @@
             transform: scale(1.05);
             transition: transform 0.3s ease;
         }
+        .copy-feedback {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .copy-feedback.show {
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="gradient-bg min-h-screen flex items-center justify-center">
@@ -29,13 +36,28 @@
         
         <div class="donation-box bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-6 rounded-xl mb-6">
             <h2 class="text-2xl font-semibold mb-2">বিকাশ (bKash)</h2>
-            <p class="text-lg mb-2">বিকাশ নাম্বার: <span class="font-bold">01925723245</span></p>
-            <p class="text-base mb-4">অ্যামাউন্ট: মাত্র ৫ টাকা (বা আপনার ইচ্ছামতো)</p>
+            <p class="text-lg mb-2">বিকাশ নাম্বার: <span class="font-bold" id="phoneNumber">01925723245</span></p>
+            <button onclick="copyNumber()" class="inline-block mt-2 px-4 py-1 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition">নাম্বার কপি করুন</button>
+            <p id="copyFeedback" class="copy-feedback text-sm text-yellow-200 mt-2">নাম্বার কপি করা হয়েছে!</p>
+            <p class="text-base mb-4 mt-4">অ্যামাউন্ট: মাত্র ৫ টাকা (বা আপনার ইচ্ছামতো)</p>
             <p class="text-sm">প্রক্রিয়া: bKash অ্যাপ খুলে <strong>Send Money</strong> অপশনে উপরের নাম্বারে টাকা পাঠান। রেফারেন্সে <strong>"Bike Donation"</strong> লিখুন।</p>
-            <a href="bkash://app" class="inline-block mt-4 px-6 py-2 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition">bKash অ্যাপ খুলুন</a>
+            <a href="bkash://sendmoney?number=01925723245" class="inline-block mt-4 px-6 py-2 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition">bKash অ্যাপে Send Money</a>
         </div>
         
-        <p class="text-sm text-gray-500">ধন্যবাদ আপনার উদারতার জন্য! যেকোনো প্রশ্ন থাকলে: <a href="mailto:gorib@gmail.com" class="text-blue-500 hover:underline">email@example.com</a></p>
+        <p class="text-sm text-gray-500">ধন্যবাদ আপনার উদারতার জন্য! যেকোনো প্রশ্ন থাকলে: <a href="mailto:email@example.com" class="text-blue-500 hover:underline">email@example.com</a></p>
     </div>
+
+    <script>
+        function copyNumber() {
+            const phoneNumber = document.getElementById('phoneNumber').textContent;
+            navigator.clipboard.writeText(phoneNumber).then(() => {
+                const feedback = document.getElementById('copyFeedback');
+                feedback.classList.add('show');
+                setTimeout(() => {
+                    feedback.classList.remove('show');
+                }, 2000);
+            });
+        }
+    </script>
 </body>
 </html>
