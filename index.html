@@ -3,59 +3,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ডোনেশন সাইট</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>আমার প্রোফাইল</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali&display=swap');
+
         body {
-            font-family: 'Noto Serif Bengali', serif;
+            font-family: 'Noto Sans Bengali', sans-serif;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #fff;
+            background: linear-gradient(45deg, #1a1a2e 10%, #16213e 20%, #0a0a23 30%, #2a2a44 40%, #1a1a2e 50%, #0a0a23 60%, #2a2a44 70%, #16213e 80%, #1a1a2e 90%);
+            animation: multiColorShift 15s ease-in-out infinite;
         }
-        .gradient-bg {
-            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+        @keyframes multiColorShift {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
         }
-        .box-shadow {
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        .card {
+            background-color: rgba(26, 0, 51, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 5px 5px 15px rgba(0, 255, 204, 0.4), -5px -5px 15px rgba(0, 255, 204, 0.4);
+            animation: dynamicShadow 6s infinite ease-in-out;
         }
-        .hover-scale:hover {
-            transform: scale(1.05);
-            transition: transform 0.3s ease;
+        @keyframes dynamicShadow {
+            0% { box-shadow: 5px 5px 15px rgba(0, 255, 204, 0.4), -5px -5px 15px rgba(0, 255, 204, 0.4); }
+            25% { box-shadow: 10px 10px 20px rgba(0, 255, 204, 0.6), -10px -10px 20px rgba(0, 255, 204, 0.6); }
+            50% { box-shadow: -5px 5px 15px rgba(0, 255, 204, 0.4), 5px -5px 15px rgba(0, 255, 204, 0.4); }
+            75% { box-shadow: -10px -10px 20px rgba(0, 255, 204, 0.6), 10px 10px 20px rgba(0, 255, 204, 0.6); }
+            100% { box-shadow: 5px 5px 15px rgba(0, 255, 204, 0.4), -5px -5px 15px rgba(0, 255, 204, 0.4); }
         }
-        .copy-feedback {
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
         }
-        .copy-feedback.show {
-            opacity: 1;
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid #00ffcc;
+            margin-bottom: 15px;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        h1 {
+            color: #00ffcc;
+            margin: 10px 0 30px 0;
+            font-size: 24px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: left;
+            margin-top: 20px;
+        }
+        li {
+            margin: 10px 0;
+        }
+        .label {
+            color: #fff;
+            font-weight: bold;
+            display: inline-block;
+            width: 100px;
+        }
+        .value {
+            color: #00ffcc;
+            display: inline-block;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #888;
+        }
+        a {
+            color: #00ffcc;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #fff;
+        }
+        .date-time {
+            color: #00ffcc;
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #00ffcc;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+        .form-group input:focus {
+            border-color: #00cccc;
+            transform: scale(1.02);
+            outline: none;
+        }
+        .form-group input:hover {
+            border-color: #00cccc;
+        }
+        button {
+            background: #00ffcc;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background: #00cccc;
+        }
+        .profile-container {
+            display: none;
+        }
+        .profile-container.active {
+            display: block;
         }
     </style>
 </head>
-<body class="gradient-bg min-h-screen flex items-center justify-center">
-    <div class="container bg-white p-8 rounded-2xl box-shadow max-w-md w-full text-center transform transition-all hover-scale">
-        <h1 class="text-4xl font-bold text-gray-800 mb-4">ডোনেশন করুন</h1>
-        <p class="text-lg text-gray-600 mb-6">আপনার ক্ষুদ্র সহায়তা দিয়ে আমরা একটা ৩ লাখ টাকার বাইক কিনতে চাই! মাত্র ৫ টাকা করে দিলে, শুধু ৬০,০০০ জন বন্ধু মিলে আমাদের স্বপ্নের বাইকটা পেয়ে যাবো! 😜 তাহলে আর দেরি কেন? বিকাশে টাকা পাঠান, বাইকের হাওয়া একসাথে উপভোগ করি! 🚴‍♂️</p>
-        
-        <div class="donation-box bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-6 rounded-xl mb-6">
-            <h2 class="text-2xl font-semibold mb-2">বিকাশ (bKash)</h2>
-            <p class="text-lg mb-2">বিকাশ নাম্বার: <span class="font-bold" id="phoneNumber">01925723245</span></p>
-            <button onclick="copyNumber()" class="inline-block mt-2 px-4 py-1 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition">নাম্বার কপি করুন</button>
-            <p id="copyFeedback" class="copy-feedback text-sm text-yellow-200 mt-2">নাম্বার কপি করা হয়েছে!</p>
-            <p class="text-base mb-4 mt-4">অ্যামাউন্ট: মাত্র ৫ টাকা (বা আপনার ইচ্ছামতো)</p>
-            <p class="text-sm">প্রক্রিয়া: bKash অ্যাপ খুলে <strong>Send Money</strong> অপশনে উপরের নাম্বারে টাকা পাঠান। রেফারেন্সে <strong>"Bike Donation"</strong> লিখুন।</p>
-            <a href="bkash://sendmoney?number=01925723245" class="inline-block mt-4 px-6 py-2 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition">bKash অ্যাপে Send Money</a>
+<body>
+    <div class="card">
+        <h2>প্রোফাইল তথ্য যোগ করুন</h2>
+        <form id="profileForm">
+            <div class="form-group">
+                <label>নাম:</label><input type="text" name="name" required>
+            </div>
+            <div class="form-group">
+                <label>মোবাইল:</label><input type="text" name="mobile">
+            </div>
+            <div class="form-group">
+                <label>ইমেইল:</label><input type="email" name="email">
+            </div>
+            <div class="form-group">
+                <label>ফেসবুক:</label><input type="text" name="facebook">
+            </div>
+            <div class="form-group">
+                <label>ইউটিউব:</label><input type="text" name="youtube">
+            </div>
+            <div class="form-group">
+                <label>টেলিগ্রাম:</label><input type="text" name="telegram">
+            </div>
+            <div class="form-group">
+                <label>ঠিকানা:</label><input type="text" name="address">
+            </div>
+            <div class="form-group">
+                <label>রক্তের গ্রুপ:</label><input type="text" name="blood_group">
+            </div>
+            <div class="form-group">
+                <label>প্রোফাইল ছবি:</label><input type="file" name="profile_img" accept="image/*">
+            </div>
+            <button type="submit">ক্রিয়েট</button>
+        </form>
+        <div class="profile-container" id="profileContainer">
+            <div class="date-time" id="dateTime"></div>
+            <img id="profileImg" alt="প্রোফাইল ছবি" class="profile-img">
+            <h1 id="profileName"></h1>
+            <ul id="profileInfo"></ul>
+            <div class="footer" id="profileFooter"></div>
+            <button onclick="printProfile()">প্রিন্ট করুন</button>
+            <button onclick="downloadProfile()">ইমেজ ডাউনলোড</button>
         </div>
-        
-        <p class="text-sm text-gray-500">ধন্যবাদ আপনার উদারতার জন্য! যেকোনো প্রশ্ন থাকলে: <a href="mailto:email@example.com" class="text-blue-500 hover:underline">email@example.com</a></p>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
-        function copyNumber() {
-            const phoneNumber = document.getElementById('phoneNumber').textContent;
-            navigator.clipboard.writeText(phoneNumber).then(() => {
-                const feedback = document.getElementById('copyFeedback');
-                feedback.classList.add('show');
-                setTimeout(() => {
-                    feedback.classList.remove('show');
-                }, 2000);
+        // প্রোফাইল তৈরি
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const profileImgFile = formData.get('profile_img');
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                document.getElementById('profileImg').src = e.target.result;
+                document.getElementById('profileName').textContent = formData.get('name') || 'SAKIB HOSSAIN';
+                const info = [
+                    { label: 'মোবাইল:', value: formData.get('mobile') },
+                    { label: 'ইমেইল:', value: formData.get('email') },
+                    { label: 'ফেসবুক:', value: formData.get('facebook') },
+                    { label: 'ইউটিউব:', value: formData.get('youtube') },
+                    { label: 'টেলিগ্রাম:', value: formData.get('telegram') },
+                    { label: 'ঠিকানা:', value: formData.get('address') },
+                    { label: 'রক্তের গ্রুপ:', value: formData.get('blood_group') }
+                ];
+                const ul = document.getElementById('profileInfo');
+                ul.innerHTML = '';
+                info.forEach(item => {
+                    if (item.value) {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<span class="label">${item.label}</span><span class="value">${item.value}</span>`;
+                        ul.appendChild(li);
+                    }
+                });
+                document.getElementById('profileFooter').textContent = 'Developed by ' + (formData.get('name') || 'SAKIB HOSSAIN');
+                document.getElementById('profileContainer').classList.add('active');
+            };
+
+            if (profileImgFile) {
+                reader.readAsDataURL(profileImgFile);
+            } else {
+                document.getElementById('profileImg').src = 'https://via.placeholder.com/100';
+                reader.onload();
+            }
+        });
+
+        // রিয়েল-টাইম ডেট এবং সময়
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Asia/Dhaka' };
+            const dateTimeString = now.toLocaleString('bn-BD', options);
+            document.getElementById('dateTime').textContent = dateTimeString;
+        }
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+
+        // প্রিন্ট
+        function printProfile() {
+            window.print();
+        }
+
+        // ইমেজ ডাউনলোড
+        function downloadProfile() {
+            html2canvas(document.querySelector('.profile-container')).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'profile.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
             });
         }
     </script>
