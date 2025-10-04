@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>আমার প্রোফাইল</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali&display=swap');
 
@@ -42,10 +41,9 @@
             75% { box-shadow: -10px -10px 20px rgba(0, 255, 204, 0.6), 10px 10px 20px rgba(0, 255, 204, 0.6); }
             100% { box-shadow: 5px 5px 15px rgba(0, 255, 204, 0.4), -5px -5px 15px rgba(0, 255, 204, 0.4); }
         }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
         }
         .profile-img {
             width: 100px;
@@ -55,33 +53,37 @@
             margin-bottom: 15px;
             animation: bounce 2s infinite;
         }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
         h1 {
             color: #00ffcc;
-            margin: 10px 0 20px 0;
+            margin: 10px 0 30px 0;
             font-size: 24px;
         }
         ul {
             list-style-type: none;
             padding: 0;
             text-align: left;
-            margin-top: 10px;
+            margin-top: 20px;
         }
         li {
-            margin: 5px 0;
-            font-size: 14px;
+            margin: 10px 0;
         }
         .label {
             color: #fff;
             font-weight: bold;
             display: inline-block;
-            width: 90px;
+            width: 100px;
         }
         .value {
             color: #00ffcc;
             display: inline-block;
         }
         .footer {
-            margin-top: 10px;
+            margin-top: 20px;
             font-size: 12px;
             color: #888;
         }
@@ -129,7 +131,7 @@
             background: #00ffcc;
             color: #000;
             border: none;
-            padding: 8px 15px;
+            padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
             margin: 5px;
@@ -140,61 +142,29 @@
         }
         .profile-container {
             display: none;
-            padding: 15px;
-            background: #fff;
-            color: #000;
-            border: 2px solid #00ffcc;
-            border-radius: 10px;
-            width: 300px;
-            height: 400px;
+            padding: 20px;
+            background: linear-gradient(45deg, #1a1a2e 10%, #16213e 20%, #0a0a23 30%, #2a2a44 40%);
+            border-radius: 15px;
             margin-top: 20px;
-            box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+            width: 100%;
             box-sizing: border-box;
-            text-align: center;
-            position: relative;
         }
         .profile-container.active {
             display: block;
         }
-        .profile-container img {
-            margin-top: 10px;
-        }
-        .profile-container ul {
-            margin-top: 5px;
-            padding: 0 10px;
-        }
-        .download-btn {
-            margin-top: 10px;
-            display: block;
-            width: 100%;
-            max-width: 300px;
-        }
-        .color-options {
-            margin-top: 10px;
-        }
-        .color-options button {
-            margin: 5px;
-            padding: 5px 10px;
-        }
         .social-options {
             display: none;
             margin-top: 10px;
-            text-align: center;
+            text-align: left;
         }
         .social-options.active {
             display: block;
         }
-        .social-options button {
-            background: none;
-            border: none;
-            color: #00ffcc;
-            font-size: 18px;
-            margin: 5px;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-        .social-options button:hover {
-            color: #00cccc;
+        .social-logo {
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+            margin-right: 5px;
         }
         @media (max-width: 480px) {
             .card {
@@ -213,10 +183,6 @@
             .profile-info {
                 font-size: 12px;
             }
-            .profile-container {
-                width: 90%;
-                height: 350px;
-            }
         }
         @media print {
             body {
@@ -226,14 +192,13 @@
                 position: absolute;
                 top: 0;
                 left: 0;
-                width: 300px !important;
-                height: 400px !important;
+                width: 100%;
+                height: auto;
                 background: none;
                 box-shadow: none;
                 padding: 0;
-                border: none;
             }
-            .card, .form-group, button, .download-btn, .color-options {
+            .card, .form-group, button {
                 display: none;
             }
         }
@@ -264,32 +229,25 @@
             <div class="form-group">
                 <label>সোশ্যাল মিডিয়া:</label><button type="button" onclick="showSocialOptions()">Add social media</button>
                 <div class="social-options" id="socialOptions">
-                    <button type="button" onclick="addSocialInput('youtube')"><i class="fab fa-youtube"></i> YouTube</button>
-                    <button type="button" onclick="addSocialInput('tiktok')"><i class="fab fa-tiktok"></i> TikTok</button>
-                    <button type="button" onclick="addSocialInput('facebook')"><i class="fab fa-facebook-f"></i> Facebook</button>
-                    <button type="button" onclick="addSocialInput('instagram')"><i class="fab fa-instagram"></i> Instagram</button>
-                    <button type="button" onclick="addSocialInput('telegram')"><i class="fab fa-telegram-plane"></i> Telegram</button>
-                    <button type="button" onclick="addSocialInput('whatsapp')"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                    <button type="button" onclick="addSocialInput('youtube')"><img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube" class="social-logo">YouTube</button>
+                    <button type="button" onclick="addSocialInput('tiktok')"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/TikTok_icon.svg" alt="TikTok" class="social-logo">TikTok</button>
+                    <button type="button" onclick="addSocialInput('facebook')"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" class="social-logo">Facebook</button>
+                    <button type="button" onclick="addSocialInput('instagram')"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="social-logo">Instagram</button>
+                    <button type="button" onclick="addSocialInput('telegram')"><img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" class="social-logo">Telegram</button>
+                    <button type="button" onclick="addSocialInput('whatsapp')"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="social-logo">WhatsApp</button>
                 </div>
             </div>
             <div id="socialInputs"></div>
             <button type="submit">ক্রিয়েট</button>
         </form>
         <div class="profile-container" id="profileContainer">
-            <div class="profile-info">আপনার প্রোফাইলটি আপনার পরিচয়ের একটি আয়না—এটি আপনার জীবনের সুন্দর মুহূর্ত ও সাফল্যকে প্রকাশ করে!</div>
+            <div class="profile-info" id="profileInfoText">আপনার প্রোফাইলটি আপনার পরিচয়ের একটি আয়না—এটি আপনার জীবনের সুন্দর মুহূর্ত ও সাফল্যকে প্রকাশ করে!</div>
             <img id="profileImg" alt="প্রোফাইল ছবি" class="profile-img">
             <h1 id="profileName"></h1>
             <ul id="profileInfo"></ul>
             <div class="footer" id="profileFooter"></div>
         </div>
-        <div class="download-btn">
-            <button onclick="downloadProfile()">ডাউনলোড</button>
-        </div>
-        <div class="color-options">
-            <button onclick="changeColor('white', 'black')">সাদা (লেখা কালো)</button>
-            <button onclick="changeColor('red', 'white')">লাল</button>
-            <button onclick="changeColor('yellow', 'black')">হলুদ</button>
-        </div>
+        <button onclick="downloadProfile()">ইমেজ ডাউনলোড</button>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -353,21 +311,11 @@
             }
         });
 
-        // কালার চেঞ্জ
-        function changeColor(background, text) {
-            const profileContainer = document.getElementById('profileContainer');
-            profileContainer.style.backgroundColor = background;
-            profileContainer.style.color = text;
-            document.querySelectorAll('.profile-container .label, .profile-container .value, .profile-container .footer').forEach(el => {
-                el.style.color = text;
-            });
-        }
-
         // ইমেজ ডাউনলোড
         function downloadProfile() {
-            const profileContainer = document.getElementById('profileContainer');
+            const profileContainer = document.querySelector('.profile-container');
             html2canvas(profileContainer, {
-                backgroundColor: getComputedStyle(profileContainer).backgroundColor,
+                backgroundColor: 'linear-gradient(45deg, #1a1a2e 10%, #16213e 20%, #0a0a23 30%, #2a2a44 40%)',
                 width: profileContainer.offsetWidth,
                 height: profileContainer.offsetHeight
             }).then(canvas => {
