@@ -94,7 +94,7 @@
         a:hover {
             color: #fff;
         }
-        .date-time {
+        .profile-info {
             color: #00ffcc;
             font-size: 14px;
             margin-bottom: 10px;
@@ -146,8 +146,17 @@
             background: linear-gradient(45deg, #1a1a2e 10%, #16213e 20%, #0a0a23 30%, #2a2a44 40%);
             border-radius: 15px;
             margin-top: 20px;
+            width: 100%;
+            box-sizing: border-box;
         }
         .profile-container.active {
+            display: block;
+        }
+        .social-options {
+            display: none;
+            margin-top: 10px;
+        }
+        .social-options.active {
             display: block;
         }
         @media (max-width: 480px) {
@@ -164,7 +173,7 @@
             h1 {
                 font-size: 20px;
             }
-            .date-time {
+            .profile-info {
                 font-size: 12px;
             }
         }
@@ -202,15 +211,6 @@
                 <label>ইমেইল:</label><input type="email" name="email">
             </div>
             <div class="form-group">
-                <label>ফেসবুক:</label><input type="text" name="facebook">
-            </div>
-            <div class="form-group">
-                <label>ইউটিউব:</label><input type="text" name="youtube">
-            </div>
-            <div class="form-group">
-                <label>টেলিগ্রাম:</label><input type="text" name="telegram">
-            </div>
-            <div class="form-group">
                 <label>ঠিকানা:</label><input type="text" name="address">
             </div>
             <div class="form-group">
@@ -219,10 +219,21 @@
             <div class="form-group">
                 <label>প্রোফাইল ছবি:</label><input type="file" name="profile_img" accept="image/*">
             </div>
+            <div class="form-group">
+                <label>সোশ্যাল মিডিয়া:</label><button type="button" onclick="showSocialOptions()">Add social media</button>
+                <div class="social-options" id="socialOptions">
+                    <button type="button" onclick="addSocialInput('youtube')">YouTube</button>
+                    <button type="button" onclick="addSocialInput('tiktok')">TikTok</button>
+                    <button type="button" onclick="addSocialInput('facebook')">Facebook</button>
+                    <button type="button" onclick="addSocialInput('instagram')">Instagram</button>
+                    <button type="button" onclick="addSocialInput('telegram')">Telegram</button>
+                </div>
+            </div>
+            <div id="socialInputs"></div>
             <button type="submit">ক্রিয়েট</button>
         </form>
         <div class="profile-container" id="profileContainer">
-            <div class="date-time" id="dateTime"></div>
+            <div class="profile-info" id="profileInfoText">আপনার প্রোফাইলটি আপনার পরিচয়ের একটি আয়না—এটি আপনার জীবনের সুন্দর মুহূর্ত ও সাফল্যকে প্রকাশ করে!</div>
             <img id="profileImg" alt="প্রোফাইল ছবি" class="profile-img">
             <h1 id="profileName"></h1>
             <ul id="profileInfo"></ul>
@@ -234,6 +245,21 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
+        let socialMedia = {};
+
+        function showSocialOptions() {
+            document.getElementById('socialOptions').classList.toggle('active');
+        }
+
+        function addSocialInput(platform) {
+            const container = document.getElementById('socialInputs');
+            const input = document.createElement('div');
+            input.className = 'form-group';
+            input.innerHTML = `<label>${platform}:</label><input type="text" name="social_${platform}" placeholder="নাম দিন" required>`;
+            container.appendChild(input);
+            document.getElementById('socialOptions').classList.remove('active');
+        }
+
         // প্রোফাইল তৈরি
         document.getElementById('profileForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -247,12 +273,16 @@
                 const info = [
                     { label: 'মোবাইল:', value: formData.get('mobile') },
                     { label: 'ইমেইল:', value: formData.get('email') },
-                    { label: 'ফেসবুক:', value: formData.get('facebook') },
-                    { label: 'ইউটিউব:', value: formData.get('youtube') },
-                    { label: 'টেলিগ্রাম:', value: formData.get('telegram') },
                     { label: 'ঠিকানা:', value: formData.get('address') },
                     { label: 'রক্তের গ্রুপ:', value: formData.get('blood_group') }
                 ];
+                const socialInputs = document.querySelectorAll('#socialInputs input');
+                socialInputs.forEach(input => {
+                    const platform = input.name.replace('social_', '');
+                    if (input.value) {
+                        info.push({ label: `${platform}:`, value: input.value });
+                    }
+                });
                 const ul = document.getElementById('profileInfo');
                 ul.innerHTML = '';
                 info.forEach(item => {
@@ -288,15 +318,18 @@
         function printProfile() {
             const profileContainer = document.querySelector('.profile-container');
             const originalBackground = document.body.style.background;
-            document.body.style.background = 'none'; // ব্যাকগ্রাউন্ড সরানো
+            document.body.style.background = 'none';
             window.print();
-            document.body.style.background = originalBackground; // মূল ব্যাকগ্রাউন্ড ফিরে আসে
+            document.body.style.background = originalBackground;
         }
 
         // ইমেজ ডাউনলোড
         function downloadProfile() {
-            html2canvas(document.querySelector('.profile-container'), {
-                backgroundColor: 'linear-gradient(45deg, #1a1a2e 10%, #16213e 20%, #0a0a23 30%, #2a2a44 40%)'
+            const profileContainer = document.querySelector('.profile-container');
+            html2canvas(profileContainer, {
+                backgroundColor: 'linear-gradient(45deg, #1a1a2e 10%, #16213e 20%, #0a0a23 30%, #2a2a44 40%)',
+                width: profileContainer.offsetWidth,
+                height: profileContainer.offsetHeight
             }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = 'profile.png';
