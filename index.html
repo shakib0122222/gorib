@@ -314,16 +314,22 @@
         // ইমেজ ডাউনলোড
         function downloadProfile() {
             const profileContainer = document.querySelector('.profile-container');
-            html2canvas(profileContainer, {
-                backgroundColor: 'linear-gradient(45deg, #1a1a2e 10%, #16213e 20%, #0a0a23 30%, #2a2a44 40%)',
-                width: profileContainer.offsetWidth,
-                height: profileContainer.offsetHeight
-            }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = 'profile.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-            });
+            if (profileContainer) {
+                html2canvas(profileContainer, {
+                    backgroundColor: 'linear-gradient(45deg, #1a1a2e 10%, #16213e 20%, #0a0a23 30%, #2a2a44 40%)',
+                    width: profileContainer.offsetWidth,
+                    height: profileContainer.offsetHeight,
+                    scale: window.devicePixelRatio || 1,
+                    useCORS: true
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = 'profile.png';
+                    link.href = canvas.toDataURL('image/png', 1.0); // গুণমান 1.0 সেট
+                    link.click();
+                }).catch(error => {
+                    console.error('ডাউনলোডে ত্রুটি:', error);
+                });
+            }
         }
     </script>
 </body>
